@@ -1,0 +1,9 @@
+{{#if actor.avatar}}
+  <img src={{actor.avatar.filename}} class='avatar' alt='{{actor.avatar.alt}}'>
+{{/if}}
+{{#if actor.name}}
+  <span{{#if actor.color}} style='color: {{actor.color}}'{{/if}}>
+    {{actor.name}}
+  </span><br />
+{{/if}}
+{{text}}

@@ -1,0 +1,46 @@
+<!DOCTYPE HTML">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+  <script src="/vendor/lodash.js"></script>
+  <script src="/vendor/handlebars.js"></script>
+
+  <script src="/src/position.js"></script>
+
+  <script src="/src/models/actor.js"></script>
+  <script src="/src/models/scene.js"></script>
+  <script src="/src/models/chapter.js"></script>
+
+  <script src="/the-question/the-question.js"></script>
+  <script src="/the-question/scenes/chapter1.js"></script>
+  <script src="/the-question/scenes/chapter1/start.js"></script>
+  <script src="/the-question/scenes/chapter1/rightaway.js"></script>
+  <script src="/the-question/scenes/chapter1/marry.js"></script>
+
+  <link href="/the-question/the-question.css" rel="stylesheet">
+</head>
+<body onload="init_novel()">
+  <div id="debug">
+  </div>
+
+  <div id='novel'>
+    <div style="position: absolute; left:0; top: 0; z-index:-1">
+      <img id="background" src="/the-question/img/empty.png">
+    </div>
+
+    <div id="dialog" style="z-index:100" onclick="c1.play()">
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top: 0.5em;">
+    <input type="button" value="Back to Beginning" onclick="init_novel()"/>
+  </div>
+
+  <div style="font-size: small">
+    &#8220;The Question,&#8221; a visual novel that comes with the
+    <a href="http://renpy.org/">Ren'py</a> Visual Novel engine, was the
+    source for the images and script.
+  </div>
+</body>
+</html>
