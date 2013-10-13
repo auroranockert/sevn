@@ -15,8 +15,8 @@ Views = {}
 
 function download_views() {
   var views = [
-    { name: 'say', filename: '/src/views/say.handlebars' },
-    { name: 'menu', filename: '/src/views/menu.handlebars' }
+    { name: 'say', filename: '/sevn/src/views/say.handlebars' },
+    { name: 'menu', filename: '/sevn/src/views/menu.handlebars' }
   ]
 
   for (var i = 0; i < views.length; i++) {

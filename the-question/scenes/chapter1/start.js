@@ -1,5 +1,5 @@
 var start = new Scene({
-  background: { filename: '/the-question/img/lecturehall.jpg' },
+  background: { filename: '/sevn/the-question/img/lecturehall.jpg' },
   inherit: []
 })
 
@@ -10,12 +10,12 @@ start.push([
   narrator.say("And they all ended up with a question; a question I've been meaning to ask someone."),
 
   [
-    start.change_background({ filename: '/the-question/img/uni.jpg', effect: 'dissolve' }),
+    start.change_background({ filename: '/sevn/the-question/img/uni.jpg', effect: 'dissolve' }),
     narrator.say("When we came out of the university, I saw her.")
   ],
 
   [
-    sylvie.change_image({ filename: '/the-question/img/sylvie_normal.png', position: s1_pos }),
+    sylvie.change_image({ filename: '/sevn/the-question/img/sylvie_normal.png', position: s1_pos }),
     narrator.say("She was a wonderful person.")
   ],
   narrator.say("I've known her ever since we were children, and she's always been a good friend."),

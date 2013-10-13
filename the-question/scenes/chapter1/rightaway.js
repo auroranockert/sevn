@@ -1,18 +1,18 @@
 var rightaway = new Scene({
-  background: { filename: '/the-question/img/uni.jpg' },
+  background: { filename: '/sevn/the-question/img/uni.jpg' },
   inherit: ['audio']
 })
 
 rightaway.push([
   [
-    sylvie.change_image({ filename: '/the-question/img/sylvie_smile.png', position: s1_pos }),
+    sylvie.change_image({ filename: '/sevn/the-question/img/sylvie_smile.png', position: s1_pos }),
     sylvie.say("Oh, hi, do we walk home together?" )
   ],
   me.say("Yes…"),
   narrator.say("I said and my voice was already shaking."),
 
   [
-    rightaway.change_background({ filename: '/the-question/img/meadow.jpg', effect: 'dissolve' }),
+    rightaway.change_background({ filename: '/sevn/the-question/img/meadow.jpg', effect: 'dissolve' }),
     narrator.say("We reached the meadows just outside our hometown.")
   ],
   narrator.say("Autumn was so beautiful here."),
@@ -20,7 +20,7 @@ rightaway.push([
   me.say("Hey… ummm…"),
 
   [
-    sylvie.change_image({ filename: "/the-question/img/sylvie_smile.png", position: s1_pos }),
+    sylvie.change_image({ filename: "/sevn/the-question/img/sylvie_smile.png", position: s1_pos }),
     narrator.say("She turned to me and smiled.")
   ],
   narrator.say("I'll ask her…"),
@@ -28,13 +28,13 @@ rightaway.push([
   me.say("Will you be my artist for a visual novel?"),
 
   [
-    sylvie.change_image({ filename: "/the-question/img/sylvie_surprised.png", position: s1_pos }),
+    sylvie.change_image({ filename: "/sevn/the-question/img/sylvie_surprised.png", position: s1_pos }),
     narrator.say("Silence.")
   ],
   narrator.say("She is shocked. And then…"),
 
   [
-    sylvie.change_image({ filename: "/the-question/img/sylvie_smile.png", position: s1_pos }),
+    sylvie.change_image({ filename: "/sevn/the-question/img/sylvie_smile.png", position: s1_pos }),
     sylvie.say("Sure, but what is a 'visual novel?'")
   ],
 
@@ -47,7 +47,7 @@ rightaway.push([
       me.say("And I figured you could help me… since I know how you like to draw."),
 
       [
-        sylvie.change_image({ filename: '/the-question/img/sylvie_normal.png', position: s1_pos }),
+        sylvie.change_image({ filename: '/sevn/the-question/img/sylvie_normal.png', position: s1_pos }),
         sylvie.say("Well, I can try. I hope I don't disappoint you.")
       ],
       [
