@@ -18,3 +18,6 @@ it will be tainted by the license. If you need another license, contact me.
 The game 'The Question' is MIT licensed.
 
 The libraries 'Handlebars' and 'Lo-Dash' are also MIT licensed.
+
+The CSS for 'The Question' is from [js-vine](http://langintro.com/js-vine/) and
+seems to be LGPL licensed.

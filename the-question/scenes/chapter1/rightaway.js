@@ -36,26 +36,42 @@ rightaway.push([
     sylvie.change_image({ filename: "/the-question/img/sylvie_smile.png", position: s1_pos }),
     sylvie.say("Sure, but what is a 'visual novel?'")
   ],
-  
-  // narrator.choice('', [
-  //  { text: "It's a story with pictures.", commands: [
-    me.say("It's a story with pictures and music."),
-    me.say("And you'll be able to make choices that influence the outcome of the story."),
-    sylvie.say("So it's like those choose-your-adventure books?"),
-    me.say("Exactly! I plan on making a small romantic story."),
-    me.say("And I figured you could help me… since I know how you like to draw."),
 
-    [
-      sylvie.change_image({ filename: '/the-question/img/sylvie_normal.png', position: s1_pos }),
-      sylvie.say("Well, I can try. I hope I don't disappoint you.")
-    ],
-    [
-      me.say("You can't disappoint me, you know that."),
-      c1.jump('marry')
-    ]
-  //  ]},
-  //  { text: "It's a hentai game.", commands: […] }
-  //])
+  start.menu([
+    { text: "It's a story with pictures", list: [
+      me.say("It's a story with pictures and music."),
+      me.say("And you'll be able to make choices that influence the outcome of the story."),
+      sylvie.say("So it's like those choose-your-adventure books?"),
+      me.say("Exactly! I plan on making a small romantic story."),
+      me.say("And I figured you could help me… since I know how you like to draw."),
+
+      [
+        sylvie.change_image({ filename: '/the-question/img/sylvie_normal.png', position: s1_pos }),
+        sylvie.say("Well, I can try. I hope I don't disappoint you.")
+      ],
+      [
+        me.say("You can't disappoint me, you know that."),
+        c1.jump('marry')
+      ]
+    ]},
+    { text: "It's a hentai game.", list: [
+      function () {
+        bl_game = true
+        return [me.say("Why it's a game with lots of sex.")]
+      },
+      sylvie.say("You mean, like a boy's love game?"),
+      sylvie.say("I've always wanted to make one of those."),
+      sylvie.say("I'll get right on it!"),
+
+      sylvie.change_image({ detach: true }),
+
+      narrator.say("…"),
+      [
+        me.say("That wasn't what I meant!"),
+        c1.jump('marry')
+      ]
+    ]}
+  ])
 ])
 
 c1.add_scene('rightaway', rightaway)

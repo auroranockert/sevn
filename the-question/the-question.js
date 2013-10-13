@@ -4,14 +4,17 @@ function init_novel() {
 }
 
 window.onkeypress = function () {
-  c1.play()
+  if (!c1.current.scene.waiting) {
+    c1.play()
+  }
 }
 
 Views = {}
 
 function download_views() {
   var views = [
-    { name: 'say', filename: '/src/views/say.handlebars' }
+    { name: 'say', filename: '/src/views/say.handlebars' },
+    { name: 'menu', filename: '/src/views/menu.handlebars' }
   ]
 
   for (var i = 0; i < views.length; i++) {

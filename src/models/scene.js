@@ -31,10 +31,51 @@ Scene.prototype.push = function (dialogue) {
   this.dialogue = this.dialogue.concat(dialogue)
 }
 
+Scene.prototype.changed_background = function (image) {
+  document.getElementById('background').src = image.filename
+}
+
+Scene.prototype.show_menu = function (chapter, menu) {
+  this.waiting = true
+
+  var novel = document.getElementById('novel')
+
+  for (var i = 0; i < menu.length; i++) {
+    var item = document.createElement('div')
+
+    item.innerHTML = Views.menu(menu[i])
+    item.className = 'menu-item'
+
+    item.onclick = function () {
+      this.scene.waiting = false
+
+      var items = document.querySelectorAll(".menu-item")
+
+      for (var j = 0; j < items.length; j++) {
+        novel.removeChild(items[j])
+      }
+
+      if (this.command) {
+        chapter.run_command(this.command)
+      }
+
+      if (this.list) {
+        chapter.queue = chapter.queue.concat(this.list)
+      }
+
+      chapter.play()
+    }.bind(menu[i])
+
+    menu[i].scene = this
+
+    novel.appendChild(item)
+  }
+}
+
 Scene.prototype.change_background = function (image) {
   return { command: 'change-background', scene: this, image: image }
 }
 
-Scene.prototype.changed_background = function (image) {
-  document.getElementById('background').src = image.filename
+Scene.prototype.menu = function (options) {
+  return { command: 'menu', scene: this, options: options }
 }

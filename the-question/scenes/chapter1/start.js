@@ -23,7 +23,10 @@ start.push([
   narrator.say("More than just talking… more than just walking home together when our classes ended."),
   [
     narrator.say("And I decided…"),
-    c1.jump('rightaway')
+    start.menu([
+      { text: '… to ask her right away', command: c1.jump('rightaway') },
+      { text: '… to ask her later', command: c1.jump('later') }
+    ])
   ]
 ])
 

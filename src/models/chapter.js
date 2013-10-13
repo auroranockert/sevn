@@ -25,19 +25,22 @@ Chapter.prototype.start = function (name) {
   this.current = { scene: this.scenes[name], line: 0 }
 }
 
-function run_command(self, command) {
+Chapter.prototype.run_command = function (command) {
   switch (command.command) {
   case 'say':
     document.getElementById('dialog').innerHTML = Views.say(command)
     return
   case 'jump':
-    self.current = { scene: self.scenes[command.scene], line: 0 }
+    this.current = { scene: this.scenes[command.scene], line: 0 }
     return
   case 'change-image':
     command.actor.changed_image(command.image)
     return
   case 'change-background':
     command.scene.changed_background(command.image)
+    return
+  case 'menu':
+    command.scene.show_menu(this, command.options)
     return
   case 'end':
     throw 'end-error'
@@ -65,14 +68,12 @@ Chapter.prototype.play = function () {
 
   if (Array.isArray(command)) {
     for (var i = 0; i < command.length; i++) {
-      run_command(this, command[i])
+      this.run_command(command[i])
     }
   } else if (typeof command == 'function') {
-    this.queue = this.queue.concat(command())
-
-    this.play()
+    this.queue = this.queue.concat(command()); this.play()
   } else {
-    run_command(this, command)
+    this.run_command(command)
   }
 
 }

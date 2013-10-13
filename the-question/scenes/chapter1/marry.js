@@ -2,8 +2,6 @@ var marry = new Scene({
   background: { filename: '/the-question/img/black.png', effect: 'dissolve' }
 })
 
-bl_game = true
-
 marry.push([
   narrator.say("--- years later ---"),
 
