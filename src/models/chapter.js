@@ -51,7 +51,13 @@ Chapter.prototype.play = function () {
     this.current.scene.start()
   }
 
-  var command = this.current.scene.dialogue[this.current.line]
+  if (this.queue.length > 0) {
+    var command = this.queue.shift()
+  } else {
+    var command = this.current.scene.dialogue[this.current.line]
+
+    this.current.line += 1
+  }
 
   if (!command) {
     throw "Running out of lines…"
@@ -61,11 +67,14 @@ Chapter.prototype.play = function () {
     for (var i = 0; i < command.length; i++) {
       run_command(this, command[i])
     }
+  } else if (typeof command == 'function') {
+    this.queue = this.queue.concat(command())
+
+    this.play()
   } else {
     run_command(this, command)
   }
 
-  this.current.line += 1
 }
 
 Chapter.prototype.add_scene = function (name, scene) {

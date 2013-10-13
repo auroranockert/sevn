@@ -3,7 +3,7 @@ var start = new Scene({
 })
 
 start.push([
-  narrator.say("Well, the professor's lecture was interesting."),
+  narrator.say("Well, professor Eileen's lecture was interesting."),
   narrator.say("But to be honest, I couldn't concentrate on it very much."),
   narrator.say("I had a lot of other thoughts on my mind."),
   narrator.say("And they all ended up with a question; a question I've been meaning to ask someone."),

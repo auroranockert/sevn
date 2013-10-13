@@ -2,6 +2,8 @@ var marry = new Scene({
   background: { filename: '/the-question/img/black.png', effect: 'dissolve' }
 })
 
+bl_game = true
+
 marry.push([
   narrator.say("--- years later ---"),
 
@@ -11,13 +13,13 @@ marry.push([
   ],
   narrator.say("We made games and had a lot of fun making them."),
 
-  /* function () {
+  function () {
     if (bl_game) {
       return [narrator.say("Well, apart from that Boy's Love game she insisted on making.")]
     } else {
       return []
     }
-  }, */
+  },
 
   narrator.say("And one day..."),
 
