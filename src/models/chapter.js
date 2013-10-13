@@ -71,7 +71,7 @@ Chapter.prototype.play = function () {
       this.run_command(command[i])
     }
   } else if (typeof command == 'function') {
-    this.queue = this.queue.concat(command()); this.play()
+    this.queue = command().concat(this.queue); this.play()
   } else {
     this.run_command(command)
   }

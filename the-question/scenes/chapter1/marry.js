@@ -68,6 +68,7 @@ marry.push([
 
   [
     rightaway.change_background({ filename: '/the-question/img/black.png', effect: 'dissolve' }),
+    sylvie.change_image({ detach: true }),
     narrator.say("And we got married shortly after that.")
   ],
   narrator.say("In fact, we made many more visual novels."),

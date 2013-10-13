@@ -67,7 +67,7 @@ Scene.prototype.show_menu = function (chapter, menu) {
       }
 
       if (this.list) {
-        chapter.queue = chapter.queue.concat(this.list)
+        chapter.queue = this.list.concat(chapter.queue)
       }
 
       chapter.play()
