@@ -25,8 +25,25 @@ Chapter.prototype.start = function (name) {
   this.current = { scene: this.scenes[name], line: 0 }
 }
 
-Chapter.prototype.end = function () {
-  { command: 'end' }
+function run_command(self, command) {
+  switch (command.command) {
+  case 'say':
+    document.getElementById('dialog').innerHTML = Views.say(command)
+    return
+  case 'jump':
+    self.current = { scene: self.scenes[command.scene], line: 0 }
+    return
+  case 'change-image':
+    command.actor.changed_image(command.image)
+    return
+  case 'change-background':
+    command.scene.changed_background(command.image)
+    return
+  case 'end':
+    throw 'end-error'
+  default:
+    throw "Lulzerror"
+  }
 }
 
 Chapter.prototype.play = function () {
@@ -34,25 +51,18 @@ Chapter.prototype.play = function () {
     this.current.scene.start()
   }
 
-  var line = this.current.scene.dialogue[this.current.line]
+  var command = this.current.scene.dialogue[this.current.line]
 
-  if (!line) {
+  if (!command) {
     throw "Running out of lines…"
   }
 
-  switch (line.command) {
-  case 'say':
-    document.getElementById('dialog').innerHTML = Views.say(line); break
-  case 'jump':
-    this.current = { scene: this.scenes[line.scene], line: 0 }; return this.play()
-  case 'change-image':
-    line.actor.changed_image(line.image); this.current.line += 1; return this.play()
-  case 'change-background':
-    line.scene.changed_background(line.image); this.current.line += 1; return this.play()
-  case 'end':
-    throw 'end-error'
-  default:
-    throw "Lulzerror"
+  if (Array.isArray(command)) {
+    for (var i = 0; i < command.length; i++) {
+      run_command(this, command[i])
+    }
+  } else {
+    run_command(this, command)
   }
 
   this.current.line += 1
@@ -64,4 +74,8 @@ Chapter.prototype.add_scene = function (name, scene) {
 
 Chapter.prototype.jump = function (scene) {
   return { command: 'jump', scene: scene }
+}
+
+Chapter.prototype.end = function () {
+  return { command: 'end' }
 }
