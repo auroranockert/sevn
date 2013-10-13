@@ -1,5 +1,6 @@
 var rightaway = new Scene({
-  background: { filename: '/the-question/img/uni.jpg' }
+  background: { filename: '/the-question/img/uni.jpg' },
+  inherit: ['audio']
 })
 
 rightaway.push([

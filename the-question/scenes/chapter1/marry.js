@@ -1,5 +1,6 @@
 var marry = new Scene({
-  background: { filename: '/the-question/img/black.png', effect: 'dissolve' }
+  background: { filename: '/the-question/img/black.png', effect: 'dissolve' },
+  inherit: ['audio']
 })
 
 marry.push([

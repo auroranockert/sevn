@@ -1,5 +1,6 @@
 var later = new Scene({
-  background: { filename: '/the-question/img/black.png', effect: 'dissolve' }
+  background: { filename: '/the-question/img/black.png', effect: 'dissolve' },
+  inherit: ['audio']
 })
 
 later.push([

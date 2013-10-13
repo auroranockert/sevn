@@ -25,6 +25,13 @@ Scene.prototype.start = function () {
   if (this.options.background) {
     this.changed_background(this.options.background)
   }
+
+  var novel = document.getElementById('novel')
+  var avatars = document.querySelectorAll(".avatar")
+
+  for (var i = 0; i < avatars.length; i++) {
+    novel.removeChild(avatars[i])
+  }
 }
 
 Scene.prototype.push = function (dialogue) {
@@ -46,8 +53,8 @@ Scene.prototype.show_menu = function (chapter, menu) {
     item.innerHTML = Views.menu(menu[i])
     item.className = 'menu-item'
 
-    item.onclick = function () {
-      this.scene.waiting = false
+    item.onclick = function (scene) {
+      scene.waiting = false
 
       var items = document.querySelectorAll(".menu-item")
 
@@ -64,7 +71,7 @@ Scene.prototype.show_menu = function (chapter, menu) {
       }
 
       chapter.play()
-    }.bind(menu[i])
+    }.bind(menu[i], this)
 
     menu[i].scene = this
 

@@ -21,6 +21,7 @@ function Actor(name, escaped_name) {
 
   this.image_element = document.createElement('img')
   this.image_element.setAttribute('id', this.escaped_name + '-image')
+  this.image_element.setAttribute('class', 'avatar')
 }
 
 Actor.prototype.changed_image = function (options) {

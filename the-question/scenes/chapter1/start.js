@@ -1,5 +1,6 @@
 var start = new Scene({
-  background: { filename: '/the-question/img/lecturehall.jpg' }
+  background: { filename: '/the-question/img/lecturehall.jpg' },
+  inherit: []
 })
 
 start.push([
