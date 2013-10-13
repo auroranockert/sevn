@@ -3,11 +3,13 @@ function init_novel() {
   c1.play()
 }
 
-window.onkeypress = function () {
+function play_novel() {
   if (!c1.current.scene.waiting) {
     c1.play()
   }
 }
+
+window.onkeypress = play_novel
 
 Views = {}
 
