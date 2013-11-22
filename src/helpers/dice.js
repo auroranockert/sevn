@@ -33,18 +33,22 @@ void (function () {
   var roll_against_prototype = Object.create(roll_prototype, {
     mos: {
       get: function () {
-        return this.sum - this.tn
+        return this.success ? this.sum - this.tn : -1
       }, enumerable: true
     },
     mof: {
       get: function () {
-        return this.tn - this.sum
-      }
+        return this.success ? -1 : this.tn - this.sum
+      }, enumerable: true
     },
     success: {
       get: function () {
-        return this.sum >= this.tn
-      }
+        if (this.rolls.length + this.modifier === this.sum) {
+          return false
+        } else {
+          return this.sum >= this.tn
+        }
+      }, enumerable: true
     }
   })
 
@@ -60,7 +64,7 @@ void (function () {
     },
     roll_against: {
       value: function (tn) {
-        return Object.new(roll_prototype, {
+        return Object.new(roll_against_prototype, {
           modifier: this.modifier,
           rolls: roll_dice(this),
           formula: this.formula,
@@ -70,29 +74,39 @@ void (function () {
     }
   })
 
-  var Dice = {
+  window.Dice = {
     set: function (formula) {
-      var matches = formula.match(/^(\d+)?([de])(\d+)([+-]\d+)?$/i)
+      if (typeof formula === 'string') {
+        var matches = formula.match(/^(\d+)?([de])(\d+)([+-]\d+)?$/i)
 
-      if (matches === null) {
-        throw "Could not parse expression"
+        if (matches === null) {
+          throw "Could not parse expression"
+        }
+
+        if (['d', 'e'].indexOf(matches[2]) === -1) {
+          throw "Die types can only be 'd' or 'e', was '" + matches[2] + "'"
+        }
+
+        if (matches[3] === '0') {
+          throw "Zero-sided dice, funny…"
+        }
+
+        return Object.new(dice_set_prototype, {
+          formula: formula,
+          modifier: matches[4] ? window.parseInt(matches[4], 10) : 0,
+          rolls: matches[1] ? window.parseInt(matches[1], 10) : 1,
+          sides: window.parseInt(matches[3], 10),
+          type: matches[2]
+        })
+      } else {
+        return Object.new(dice_set_prototype, {
+          formula: formula,
+          modifier: formula.modifier || 0,
+          rolls: formula.rolls || 1,
+          sides: formula.sides,
+          type: formula.type || 'd'
+        })
       }
-
-      if (['d', 'e'].indexOf(matches[2]) === -1) {
-        throw "Die types can only be 'd' or 'e', was '" + matches[2] + "'"
-      }
-
-      if (matches[3] === '0') {
-        throw "Zero-sided dice, funny…"
-      }
-
-      return Object.new(dice_set_prototype, {
-        formula: formula,
-        modifier: matches[4] ? window.parseInt(matches[4], 10) : 0,
-        rolls: matches[1] ? window.parseInt(matches[1], 10) : 1,
-        sides: window.parseInt(matches[3], 10),
-        type: matches[2]
-      })
     },
     roll: function (formula) {
       return Dice.set(formula).roll()
@@ -101,6 +115,4 @@ void (function () {
       return Dice.set(formula).roll_against(tn)
     }
   }
-
-  window.Dice = Dice
 })()
