@@ -1,71 +1,106 @@
-var Roll = function (formula, rolls, modifier) {
-  this.formula = formula
-  this.rolls = rolls
-  this.modifier = modifier
-  this.sum = rolls.reduce(function (sum, x) { return sum + x }) + this.modifier
-}
+void (function () {
+  var roll_one_dice = function (sides, type) {
+    switch (type) {
+      case 'd':
+        return 1 + Math.floor(Math.random() * sides)
+      case 'e':
+        var value = roll_one_dice(sides, 'd')
 
-var DiceSet = function (formula) {
-  var matches = formula.match(/^(\d+)?([de])(\d+)([+-]\d+)?$/i)
-
-  if (matches === null) {
-    throw "Could not parse expression"
+        if (value === sides) {
+          return value + roll_one_dice(sides, 'e')
+        } else {
+          return value
+        }
+      default:
+        throw "Unknown dice type"
+    }
   }
 
-  if (['d', 'e'].indexOf(matches[2]) === -1) {
-    throw "Die types can only be 'd' or 'e', was '" + matches[2] + "'"
-  } else {
-    this.type = matches[2]
-  }
-
-  if (matches[3] === '0') {
-    throw "Zero-sided dice, funny…"
-  } else {
-    this.sides = window.parseInt(matches[3], 10)
-  }
-
-  this.rolls = matches[1] ? window.parseInt(matches[1], 10) : 1
-  this.modifier = matches[4] ? window.parseInt(matches[4], 10) : 0
-}
-
-Roll.prototype.toString = function () {
-  if (this.modifier == 0) {
-    return this.formula + ': ' + this.rolls.join(' + ') + ' = ' + this.sum
-  } else {
-    return this.formula + ': ' + this.rolls.join(' + ') + (this.modifier < 0 ? ' - ' : ' + ') + Math.abs(this.modifier) + ' = ' + this.sum
-  }
-}
-
-var roll = function (sides, type) {
-  switch (type) {
-    case 'd':
-      return 1 + Math.floor(Math.random() * sides)
-    case 'e':
-      var value = roll(sides, 'd')
-
-      if (value === sides) {
-        return value + roll(sides, 'e')
-      } else {
-        return value
-      }
-    default:
-      throw "Unknown dice type"
-  }
-}
-
-window.Dice = {
-  roll: function (formula) {
-    var set = new DiceSet(formula)
-
-    var rolls = _.range(set.rolls).map(function () {
-      return roll(set.sides, set.type)
+  var roll_dice = function (set) {
+    return Array.range(1, set.rolls).map(function () {
+      return roll_one_dice(set.sides, set.type)
     })
+  }
 
-    var result = new Roll(formula, rolls, set.modifier)
+  var roll_prototype = Object.create(Object.prototype, {
+    sum: {
+      get: function  () {
+        return this.rolls.reduce(function (sum, x) { return sum + x }) + this.modifier
+      }, enumerable: true
+    }
+  })
 
-    window.Dice.logger(result)
+  var roll_against_prototype = Object.create(roll_prototype, {
+    mos: {
+      get: function () {
+        return this.sum - this.tn
+      }, enumerable: true
+    },
+    mof: {
+      get: function () {
+        return this.tn - this.sum
+      }
+    },
+    success: {
+      get: function () {
+        return this.sum >= this.tn
+      }
+    }
+  })
 
-    return result
-  },
-  logger: function (result) {} // Default is to not log rolls
-}
+  var dice_set_prototype = Object.create(Object.prototype, {
+    roll: {
+      value: function () {
+        return Object.new(roll_prototype, {
+          modifier: this.modifier,
+          rolls: roll_dice(this),
+          formula: this.formula
+        })
+      }
+    },
+    roll_against: {
+      value: function (tn) {
+        return Object.new(roll_prototype, {
+          modifier: this.modifier,
+          rolls: roll_dice(this),
+          formula: this.formula,
+          tn: tn
+        })
+      }
+    }
+  })
+
+  var Dice = {
+    set: function (formula) {
+      var matches = formula.match(/^(\d+)?([de])(\d+)([+-]\d+)?$/i)
+
+      if (matches === null) {
+        throw "Could not parse expression"
+      }
+
+      if (['d', 'e'].indexOf(matches[2]) === -1) {
+        throw "Die types can only be 'd' or 'e', was '" + matches[2] + "'"
+      }
+
+      if (matches[3] === '0') {
+        throw "Zero-sided dice, funny…"
+      }
+
+      return Object.new(dice_set_prototype, {
+        formula: formula,
+        modifier: matches[4] ? window.parseInt(matches[4], 10) : 0,
+        rolls: matches[1] ? window.parseInt(matches[1], 10) : 1,
+        sides: window.parseInt(matches[3], 10),
+        type: matches[2]
+      })
+    },
+    roll: function (formula) {
+      return Dice.set(formula).roll()
+    },
+    roll_against: function (formula, tn) {
+      return Dice.set(formula).roll_against(tn)
+    }
+  }
+
+  window.Dice = Dice
+})()
